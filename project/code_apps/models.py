@@ -13,7 +13,7 @@ class Ticket(models.Model):
     )
     image = models.FileField(upload_to='chemin/images', blank=True, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
-    pass
+
 
 
 class Review(models.Model):
