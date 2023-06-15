@@ -10,8 +10,8 @@ def login_view(request):
 
         if user is not None:
             login(request, user)
-            # Rediriger vers une page de succès ou faire d'autres actions
-            return redirect('home')
+            # Rediriger vers la page suivante
+            return redirect('vers la page suivante aprés l''authentification')
         else:
             # Gérer l'erreur d'authentification
             error_message = "Identifiant ou mot de passe incorrect"
@@ -24,16 +24,16 @@ def register_view(request):
         # Récupérer les données du formulaire
         username = request.POST.get('username')
         password = request.POST.get('password')
-        email = request.POST.get('email')
-        # Vérifier si l'utilisateur existe déjà
-        if User.objects.filter(username=username).exists():
-            error_message = "Ce nom d'utilisateur est déjà pris"
+        confirm_password = request.POST.get('confirm_password')
+        # Vérifier si les mots de passe correspondent
+        if password != confirm_password:
+            error_message = "Les mots de passe ne correspondent pas."
             return render(request, 'register.html', {'error_message': error_message})
         # Créer un nouvel utilisateur
-        user = User.objects.create_user(username=username, password=password, email=email)
-        # Rediriger vers une page de succès ou une autre vue
-        return redirect('home')
+        user = User.objects.create_user(username=username, password=password)
+        # Enregistrer l'utilisateur dans la base de données
+        user.save()
+        # Rediriger vers une page de succès ou faire d'autres actions
+        return redirect('login')
     else:
         return render(request, 'register.html')
-
-

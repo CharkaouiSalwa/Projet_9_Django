@@ -7,17 +7,31 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1>Inscription</h1>
-    <form method="post" action="{% url 'register' %}">
+    <h1 class="page-title">Page d'accueil</h1>
+    <div class="container">
+        <h2 class="form-title">LITReview</h2>
+        </div>
+    <div class="register-content">
+        <form class="register-form" method="post" action="{% url 'register' %}">
         {% csrf_token %}
-        <label for="username">Nom d'utilisateur:</label>
-        <input type="text" id="username" name="username">
-        <label for="password">Mot de passe:</label>
-        <input type="password" id="password" name="password">
-        <label for="confirm_password">Confirmer le mot de passe:</label>
-        <input type="password" id="confirm_password" name="confirm_password">
-        <button type="submit">S'inscrire</button>
-    </form>
-    <a href="{% url 'login' %}">Retourner</a>
+            <h3>Inscrivez-vous</h3>
+        <label>
+        <input type="text" id="username" name="username" placeholder="Nom d'utilisateur">
+        </label><br>
+        <label>
+        <input type="password" id="password" name="password" placeholder="Mot de passe">
+        </label><br>
+        <label>
+        <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmer le mot de passe">
+        </label><br>
+        <div class="button-wrapper">
+            <button type="submit">S'inscrire</button>
+            <button type="button" onclick="window.location.href='{% url 'login' %}'">Retourner</button>
+        </div>
+
+
+        </form>
+    </div>
+
 </body>
 </html>
