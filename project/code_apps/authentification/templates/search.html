@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Recherche</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+<h1 class="page-title">Onglet d'abonnements</h1>
+    <div class="container">
+        <h2 class="form-title">LITReview</h2>
+        <a href="">Flux</a>
+        <a href="{% url 'create_ticket' %}">Posts</a>
+        <a href="{% url 'search' %}">Abonnements</a>
+        <a href="{% url 'logout' %}">Se déconnecter</a>
+        </div>
+<div class="search-result" style="text-align: center;" >
+  <h1 class="page-title" style="text-align: center;">Suivre d'autres utilisateurs</h1>
+  <div class="search-content" style="text-align: center;">
+    <form class="search-form" method="post" action="{% url 'search' %}">
+      {% csrf_token %}
+      <input type="text" name="username" placeholder="Nom d'utilisateur">
+      <button type="submit">Envoyer</button>
+    </form><br><br><br>
+
+    <table class="subscriptions-table" style="border-collapse: collapse; margin: 0 auto; ">
+  <thead>
+    <tr >
+      <th style="width: 70%;">Abonnements</th>
+      <th style="width: 30%;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for subscription in subscriptions %}
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">{{ subscription.followed_user.username }}</td>
+      <td style="border: 1px solid black; padding: 8px;">
+        <form method="post" action="{% url 'unsubscribe' subscription.followed_user.id %}">
+          {% csrf_token %}
+          <button type="submit">Désabonner</button>
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+  </div>
+  </div>
+</body>
+</html>

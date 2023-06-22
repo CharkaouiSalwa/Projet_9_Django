@@ -1,6 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
+from .models import Ticket, UserFollows, Review
+from django.contrib.auth.decorators import login_required
+from .forms import TicketForm
+
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -11,7 +16,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             # Rediriger vers la page suivante
-            return redirect('vers la page suivante aprés l''authentification')
+            return redirect('search')
         else:
             # Gérer l'erreur d'authentification
             error_message = "Identifiant ou mot de passe incorrect"
@@ -37,3 +42,59 @@ def register_view(request):
         return redirect('login')
     else:
         return render(request, 'register.html')
+
+
+@login_required
+def search(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        try:
+            user = User.objects.get(username=username)
+            # Ajouter l'utilisateur à la liste des abonnements ; cette partie représente la méthode Create de CRUD
+            UserFollows.objects.get_or_create(user=request.user, followed_user=user)
+        except User.DoesNotExist:
+            pass
+    subscriptions = UserFollows.objects.filter(user=request.user)
+    return render(request, 'search.html', {'subscriptions': subscriptions})
+
+def subscriptions(request):
+    # Récupérer la liste des abonnements de l'utilisateur connecté cest méthode Read de CRUD
+    user = request.user
+    subscriptions = UserFollows.objects.filter(user=user)
+    return render(request, 'subscriptions.html', {'subscriptions': subscriptions})
+
+
+@login_required
+def unsubscribe(request, user_id):
+    # Recherche de l'objet UserFollows correspondant à l'utilisateur et à l'utilisateur suivi
+    try:
+        subscription = UserFollows.objects.get(user=request.user, followed_user_id=user_id)
+        # Suppression de l'objet UserFollows : delete dans CRUD
+        subscription.delete()
+    except UserFollows.DoesNotExist:
+        pass
+
+    return redirect('subscriptions')
+
+def create_ticket(request):
+    if request.method == 'POST':
+        form = TicketForm(request.POST, request.FILES)
+        if form.is_valid():
+            ticket = form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            return redirect('login')
+    else:
+        form = TicketForm()
+    return render(request, 'create_ticket.html', {'form': form})
+
+
+
+
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Redirige vers la page de connexion après la déconnexion
+
+

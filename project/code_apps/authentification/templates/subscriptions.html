@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Abonnements</title>
+</head>
+<body>
+    <h1>Liste des abonnements</h1>
+
+    <ul>
+        {% for subscription in subscriptions %}
+          <div>
+        {{ subscription.followed_user.username }}
+        <a href="{% url 'unsubscribe' subscription.followed_user.id %}">Désabonner</a>
+            </div>
+        {% endfor %}
+    </ul>
+
+
+</body>
+</html>

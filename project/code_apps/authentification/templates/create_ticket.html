@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Créer un ticket</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+<h1 class="page-title">Créer un ticket</h1>
+    <div class="container">
+        <h2 class="form-title">LITReview</h2>
+        <a href="">Flux</a>
+        <a href="{% url 'create_ticket' %}">Posts</a>
+        <a href="{% url 'search' %}">Abonnements</a>
+        <a href="{% url 'logout' %}">Se déconnecter</a>
+        </div>
+    <h1>Créer un ticket</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Envoyer</button>
+    </form>
+</body>
+</html>
