@@ -1,6 +1,7 @@
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.conf import settings
 from django.db import models
+from django.urls import reverse
 
 
 
@@ -14,6 +15,8 @@ class Ticket(models.Model):
     image = models.FileField(upload_to='chemin/images', blank=True, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
+    def get_absolute_url(self):
+        return reverse('update_ticket', args=[str(self.id)])
 
 
 class Review(models.Model):

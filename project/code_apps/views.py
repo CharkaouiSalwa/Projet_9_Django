@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
 from .models import Ticket, UserFollows, Review
@@ -58,7 +58,7 @@ def search(request):
     return render(request, 'search.html', {'subscriptions': subscriptions})
 
 def subscriptions(request):
-    # Récupérer la liste des abonnements de l'utilisateur connecté cest méthode Read de CRUD
+    # Récupérer la liste des abonnements de l'utilisateur connecté cest méthode Read de CRUD lors de chargement de la page
     user = request.user
     subscriptions = UserFollows.objects.filter(user=user)
     return render(request, 'subscriptions.html', {'subscriptions': subscriptions})
@@ -87,6 +87,20 @@ def create_ticket(request):
     else:
         form = TicketForm()
     return render(request, 'create_ticket.html', {'form': form})
+
+
+def update_ticket(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+
+    if request.method == 'POST':
+        form = TicketForm(request.POST, request.FILES, instance=ticket)
+        if form.is_valid():
+            form.save()
+            return redirect('login')  # Redirection vers la page de connexion
+    else:
+        form = TicketForm(instance=ticket)
+
+    return render(request, 'update_ticket.html', {'form': form, 'ticket': ticket})
 
 
 
