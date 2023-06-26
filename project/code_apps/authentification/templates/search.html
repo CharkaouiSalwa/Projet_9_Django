@@ -44,6 +44,25 @@
     {% endfor %}
   </tbody>
 </table>
+<br>
+<table class="followers-table" style="border-collapse: collapse; margin: 0 auto;">
+  <thead>
+    <tr>
+      <th style="width: 70%;">Abonnés</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {% for follower in followers %}
+    <tr>
+      <td style="border: 1px solid black; padding: 8px;">{{ follower.user.username }}</td>
+
+
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
   </div>
   </div>
 </body>

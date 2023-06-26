@@ -24,6 +24,7 @@ def login_view(request):
     else:
         return render(request, 'login.html')
 
+@login_required
 def register_view(request):
     if request.method == 'POST':
         # Récupérer les données du formulaire
@@ -43,20 +44,24 @@ def register_view(request):
     else:
         return render(request, 'register.html')
 
-
 @login_required
 def search(request):
     if request.method == 'POST':
         username = request.POST.get('username')
+        user = User.objects.filter(username=username).first()
+        if user is not None:
+            UserFollows.objects.get_or_create(user=request.user, followed_user=user)
         try:
             user = User.objects.get(username=username)
-            # Ajouter l'utilisateur à la liste des abonnements ; cette partie représente la méthode Create de CRUD
             UserFollows.objects.get_or_create(user=request.user, followed_user=user)
         except User.DoesNotExist:
             pass
     subscriptions = UserFollows.objects.filter(user=request.user)
-    return render(request, 'search.html', {'subscriptions': subscriptions})
+    followers = UserFollows.objects.filter(followed_user=request.user)
+    return render(request, 'search.html', {'subscriptions': subscriptions, 'followers': followers})
 
+
+@login_required
 def subscriptions(request):
     # Récupérer la liste des abonnements de l'utilisateur connecté cest méthode Read de CRUD lors de chargement de la page
     user = request.user
@@ -75,6 +80,17 @@ def unsubscribe(request, user_id):
         pass
 
     return redirect('subscriptions')
+
+@login_required
+def followers(request):
+    user = request.user
+    followers = UserFollows.objects.filter(followed_user=user)
+    context = {
+        'followers': followers
+    }
+    return render(request, 'search.html', context)
+
+
 
 def create_ticket(request):
     if request.method == 'POST':
