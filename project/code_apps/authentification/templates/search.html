@@ -10,7 +10,7 @@
     <div class="container">
         <h2 class="form-title">LITReview</h2>
         <a href="">Flux</a>
-        <a href="{% url 'create_ticket' %}">Posts</a>
+        <a href="{% url 'user_tickets' %}">Posts</a>
         <a href="{% url 'search' %}">Abonnements</a>
         <a href="{% url 'logout' %}">Se déconnecter</a>
         </div>
@@ -20,13 +20,13 @@
     <form class="search-form" method="post" action="{% url 'search' %}">
       {% csrf_token %}
       <input type="text" name="username" placeholder="Nom d'utilisateur">
-      <button type="submit">Envoyer</button>
-    </form><br><br><br>
+      <button class="my-button" type="submit">Envoyer</button>
+    </form><br>
 
     <table class="subscriptions-table" style="border-collapse: collapse; margin: 0 auto; ">
   <thead>
     <tr >
-      <th style="width: 70%;">Abonnements</th>
+      <th style="width: 70%;">Abonnements</th><br>
       <th style="width: 30%;"></th>
     </tr>
   </thead>
@@ -37,7 +37,7 @@
       <td style="border: 1px solid black; padding: 8px;">
         <form method="post" action="{% url 'unsubscribe' subscription.followed_user.id %}">
           {% csrf_token %}
-          <button type="submit">Désabonner</button>
+          <button class="my-button" type="submit">Désabonner</button>
         </form>
       </td>
     </tr>
@@ -48,14 +48,13 @@
 <table class="followers-table" style="border-collapse: collapse; margin: 0 auto;">
   <thead>
     <tr>
-      <th style="width: 70%;">Abonnés</th>
-
-    </tr>
+      <th style="width: 14.5%;">Abonnés</th>
+    </tr><br>
   </thead>
   <tbody>
     {% for follower in followers %}
     <tr>
-      <td style="border: 1px solid black; padding: 8px;">{{ follower.user.username }}</td>
+      <td style="border: 1px solid black; padding: 11px;">{{ follower.user.username }}</td>
 
 
     </tr>

@@ -12,7 +12,7 @@ class Ticket(models.Model):
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE
     )
-    image = models.FileField(upload_to='chemin/images', blank=True, null=True)
+    image = models.ImageField(upload_to='chemin/images/', blank=True, null=True)
     time_created = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):

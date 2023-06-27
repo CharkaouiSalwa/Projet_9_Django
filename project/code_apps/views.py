@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
-from .models import Ticket, UserFollows, Review
+from .models import Ticket, UserFollows
 from django.contrib.auth.decorators import login_required
-from .forms import TicketForm
+from .forms import TicketForm, ReviewForm
+from django.contrib import messages
 
 
 
@@ -24,7 +25,6 @@ def login_view(request):
     else:
         return render(request, 'login.html')
 
-@login_required
 def register_view(request):
     if request.method == 'POST':
         # Récupérer les données du formulaire
@@ -35,14 +35,22 @@ def register_view(request):
         if password != confirm_password:
             error_message = "Les mots de passe ne correspondent pas."
             return render(request, 'register.html', {'error_message': error_message})
-        # Créer un nouvel utilisateur
-        user = User.objects.create_user(username=username, password=password)
-        # Enregistrer l'utilisateur dans la base de données
-        user.save()
-        # Rediriger vers une page de succès ou faire d'autres actions
-        return redirect('login')
+        try:
+            # Vérifier si l'utilisateur existe déjà
+            User.objects.get(username=username)
+            error_message = "Nom d'utilisateur déjà utilisé."
+            return render(request, 'register.html', {'error_message': error_message})
+        except User.DoesNotExist:
+            # Créer un nouvel utilisateur
+            user = User.objects.create_user(username=username, password=password)
+            # Enregistrer l'utilisateur dans la base de données
+            user.save()
+            # Rediriger vers une page de succès ou faire d'autres actions
+            messages.success(request, "Inscription réussie. Vous pouvez vous connecter maintenant.")
+            return redirect('login')
     else:
         return render(request, 'register.html')
+
 
 @login_required
 def search(request):
@@ -92,6 +100,14 @@ def followers(request):
 
 
 
+@login_required
+def user_tickets(request):
+    # Récupérer les tickets de l'utilisateur connecté
+    tickets = Ticket.objects.filter(user=request.user)
+    return render(request, 'user_tickets.html', {'tickets': tickets})
+
+
+@login_required
 def create_ticket(request):
     if request.method == 'POST':
         form = TicketForm(request.POST, request.FILES)
@@ -104,7 +120,7 @@ def create_ticket(request):
         form = TicketForm()
     return render(request, 'create_ticket.html', {'form': form})
 
-
+@login_required
 def update_ticket(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
 
@@ -112,14 +128,22 @@ def update_ticket(request, ticket_id):
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('login')  # Redirection vers la page de connexion
+            return redirect('user_tickets')  # Redirection vers la page de connexion
     else:
         form = TicketForm(instance=ticket)
 
     return render(request, 'update_ticket.html', {'form': form, 'ticket': ticket})
 
+@login_required
+def delete_ticket(request, ticket_id):
+    # Récupérer le ticket à supprimer
+    ticket = get_object_or_404(Ticket, id=ticket_id)
 
+    if request.method == 'POST':
+        ticket.delete()
+        return redirect('user_tickets')
 
+    return render(request, 'delete_ticket.html', {'ticket': ticket})
 
 
 

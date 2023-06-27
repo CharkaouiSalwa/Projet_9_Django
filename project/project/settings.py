@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "code_apps",
 ]
 
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -74,6 +75,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'code_apps/authentification/static'),
 ]
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
 
 # Database

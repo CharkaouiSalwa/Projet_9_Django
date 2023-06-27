@@ -4,7 +4,7 @@
 <html>
 <head>
     <title>Inscription</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
 <body>
     <h1 class="page-title">Page d'accueil</h1>
@@ -25,11 +25,13 @@
         <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirmer le mot de passe">
         </label><br>
         <div class="button-wrapper">
-            <button type="submit">S'inscrire</button>
-            <button type="button" onclick="window.location.href='{% url 'login' %}'">Retourner</button>
+            <button class="my-button" type="submit">S'inscrire</button>
+            <button class="my-button" type="button" onclick="window.location.href='{% url 'login' %}'">Retourner</button>
         </div>
 
-
+{% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+            {% endif %}
         </form>
     </div>
 

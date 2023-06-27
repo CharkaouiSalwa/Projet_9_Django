@@ -52,18 +52,18 @@
   border-radius: 4px;
 }
 
-.login-form button[type="submit"] {
+.my-button {
   background-color: white;
   color: black;
   padding: 10px 20px;
   border-radius: 4px;
   cursor: pointer;
+  text-decoration: none; /* Add this line to remove underline on button */
 }
 
-.login-form button[type="submit"]:hover {
+.my-button:hover {
   background-color: #45a049;
 }
-
 
 .second-content {
   float: left;
@@ -79,6 +79,7 @@
   border-radius: 4px;
   text-decoration: none;
 }
+
 /* Style pour le formulaire d'inscription */
 .register-content {
  text-align: center;
@@ -110,3 +111,60 @@
   margin-right: 10px;
 }
 /* Style pour la page search */
+.search-form input[type="text"]{
+  width: 22%;
+  padding: 10px;
+  margin-bottom: -7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+/* Style pour la page abonnement */
+/* Style for the form */
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group input[type="file"]
+{
+  width: 40%;
+  padding: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+
+.my-button {
+  color: black;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.my-button:hover {
+  background-color: #45a049;
+}
+
+.ticket {
+border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.ticket h2 {
+  margin-top: 0;
+}
+.ticket img {
+  max-width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
