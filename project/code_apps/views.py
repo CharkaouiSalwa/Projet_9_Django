@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.models import User
-from .models import Ticket, UserFollows
+from .models import Ticket, UserFollows, Review
 from django.contrib.auth.decorators import login_required
 from .forms import TicketForm, ReviewForm
 from django.contrib import messages
@@ -104,9 +104,11 @@ def followers(request):
 def user_tickets(request):
     # Récupérer les tickets de l'utilisateur connecté
     tickets = Ticket.objects.filter(user=request.user)
-    return render(request, 'user_tickets.html', {'tickets': tickets})
+    # Récupérer les critiques associées aux tickets de l'utilisateur
+    reviews = Review.objects.filter(ticket__in=tickets)
 
 
+    return render(request, 'user_tickets.html', {'tickets': tickets, 'reviews': reviews})
 @login_required
 def create_ticket(request):
     if request.method == 'POST':
@@ -115,7 +117,7 @@ def create_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect('login')
+            return redirect('user_tickets')
     else:
         form = TicketForm()
     return render(request, 'create_ticket.html', {'form': form})
@@ -145,6 +147,24 @@ def delete_ticket(request, ticket_id):
 
     return render(request, 'delete_ticket.html', {'ticket': ticket})
 
+
+def create_ticket_review(request):
+    if request.method == 'POST':
+        ticket_form = TicketForm(request.POST, request.FILES)
+        review_form = ReviewForm(request.POST)
+        if ticket_form.is_valid() and review_form.is_valid():
+            ticket = ticket_form.save(commit=False)
+            ticket.user = request.user
+            ticket.save()
+            review = review_form.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+            return redirect('user_tickets')
+    else:
+        ticket_form = TicketForm()
+        review_form = ReviewForm()
+    return render(request, 'create_ticket_review.html', {'ticket_form': ticket_form, 'review_form': review_form})
 
 
 def logout_view(request):

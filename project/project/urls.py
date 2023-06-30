@@ -3,7 +3,7 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from code_apps.views import login_view, register_view, search,\
-    unsubscribe, create_ticket, update_ticket,logout_view,user_tickets , delete_ticket
+    unsubscribe, create_ticket, update_ticket,logout_view,user_tickets , delete_ticket,create_ticket_review
 
 
 urlpatterns = [
@@ -19,6 +19,7 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('user_tickets/', user_tickets, name='user_tickets'),
     path('delete_ticket/<int:ticket_id>/', delete_ticket, name='delete_ticket'),
+    path('create_ticket_review/', create_ticket_review, name='create_ticket_review'),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

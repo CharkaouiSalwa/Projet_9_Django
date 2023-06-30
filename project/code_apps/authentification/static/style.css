@@ -155,11 +155,14 @@
 }
 
 .ticket {
-border: 1px solid #ccc;
+    border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 10px;
+  width: 400px;
+
 }
+
 .ticket h2 {
   margin-top: 0;
 }
@@ -167,4 +170,17 @@ border: 1px solid #ccc;
   max-width: 100%;
   height: auto;
   margin-bottom: 10px;
+}
+
+/* Style pour les sections Ticket et Critique */
+
+/* Style pour les champs de note */
+.rating-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.rating-field label {
+  margin-right: 10px;
 }
