@@ -1,0 +1,18 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Supprimer le ticket</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>Supprimer le ticket</h1>
+    <p>Voulez-vous vraiment supprimer le ticket "{{ ticket.title }}" ?</p>
+<form method="post">
+    {% csrf_token %}
+    <button class="my-button" type="submit">Supprimer</button>
+    <button class="my-button" type="button" onclick="window.location.href='{% url 'user_tickets' %}'">Retourner</button>
+</form>
+</body>
+</html>

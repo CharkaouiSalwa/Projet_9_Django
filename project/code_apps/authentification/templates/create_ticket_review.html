@@ -1,0 +1,34 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Créer une critique</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1 class="page-title">Créer une critique</h1>
+    <div class="container">
+        <h2 class="form-title">LITReview</h2>
+        <a href="">Flux</a>
+        <a href="{% url 'user_tickets' %}">Posts</a>
+        <a href="{% url 'search' %}">Abonnements</a>
+        <a href="{% url 'logout' %}">Se déconnecter</a>
+    </div>
+    <div class="ticket">
+        <h3>Créer un ticket</h3>
+        <form class="ticket-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ ticket_form.as_p }}
+        </form>
+    </div>
+    <div class="review" style="border: 1px solid #ccc">
+        <h3>Ajouter une critique</h3>
+        <form class="review-form" method="post">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button class="my-button" type="submit">Envoyer </button>
+        </form>
+    </div>
+</body>
+</html>

@@ -12,8 +12,6 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('search/', search, name='search'),
     path('unsubscribe/<int:user_id>/', unsubscribe, name='unsubscribe'),
-
-
     path('create_ticket/', create_ticket, name='create_ticket'),
     path('update_ticket/<int:ticket_id>/', update_ticket, name='update_ticket'),
     path('logout/', logout_view, name='logout'),

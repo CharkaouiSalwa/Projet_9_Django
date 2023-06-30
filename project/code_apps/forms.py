@@ -10,6 +10,7 @@ class TicketForm(forms.ModelForm):
             'description': forms.Textarea(attrs={'placeholder': 'Description'}),
         }
 
+
 class ReviewForm(forms.ModelForm):
     RATING_CHOICES = [(str(i), str(i)) for i in range(6)]
 

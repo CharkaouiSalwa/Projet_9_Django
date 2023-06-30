@@ -1,0 +1,46 @@
+{% load static %}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Voir vos propres posts</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+<h1 class="page-title">Voir vos propres posts</h1>
+    <div class="container">
+        <h2 class="form-title">LITReview</h2>
+        <a href="">Flux</a>
+        <a href="{% url 'user_tickets' %}">Posts</a>
+        <a href="{% url 'search' %}">Abonnements</a>
+        <a href="{% url 'logout' %}">Se déconnecter</a>
+    </div>
+{% for ticket in tickets %}
+    <div class="ticket">
+        <h2>{{ ticket.title }}</h2>
+        <p>{{ ticket.description }}</p>
+        <p>{{ ticket.time_created }}</p>
+        {% if ticket.image %}
+    <img src="{{ ticket.image.url }}" alt="Ticket Image"><br>
+        {% endif %}
+
+        {% for review in reviews %}
+            {% if review.ticket == ticket %}
+                <h3>{{ review.headline }}</h3>
+                <p>{{ review.body }}</p>
+                <p>{{ review.rating }}</p>
+            {% endif %}
+        {% endfor %}
+
+        <button class="my-button" type="button" onclick="window.location.href='{% url 'update_ticket' ticket.id %}'">Modifier</button>
+        <button class="my-button" type="button" onclick="window.location.href='{% url 'delete_ticket' ticket.id %}'">Supprimer</button>
+    </div>
+{% endfor %}
+
+
+</body>
+</html>
+
+
+

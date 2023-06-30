@@ -106,8 +106,6 @@ def user_tickets(request):
     tickets = Ticket.objects.filter(user=request.user)
     # Récupérer les critiques associées aux tickets de l'utilisateur
     reviews = Review.objects.filter(ticket__in=tickets)
-
-
     return render(request, 'user_tickets.html', {'tickets': tickets, 'reviews': reviews})
 @login_required
 def create_ticket(request):
