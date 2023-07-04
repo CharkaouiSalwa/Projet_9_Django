@@ -7,13 +7,15 @@
 </head>
 <body>
 <h1 class="page-title">Onglet d'abonnements</h1>
-    <div class="container">
-        <h2 class="form-title">LITReview</h2>
-        <a href="">Flux</a>
-        <a href="{% url 'user_tickets' %}">Posts</a>
-        <a href="{% url 'search' %}">Abonnements</a>
-        <a href="{% url 'logout' %}">Se déconnecter</a>
-        </div>
+    <div class="container" style="height: 100px;">
+  <h2 class="form-title">LITReview</h2>
+  <div class="links">
+    <a href="{% url 'flux' %}">Flux</a>
+    <a href="{% url 'post' %}">Posts</a>
+    <a href="{% url 'search' %}">Abonnements</a>
+    <a href="{% url 'logout' %}">Se déconnecter</a>
+  </div>
+</div>
 <div class="search-result" style="text-align: center;" >
   <h1 class="page-title" style="text-align: center;">Suivre d'autres utilisateurs</h1>
   <div class="search-content" style="text-align: center;">

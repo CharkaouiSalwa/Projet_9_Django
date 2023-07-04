@@ -17,16 +17,26 @@
   margin-right: auto;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Ajustez la hauteur selon vos besoins */
+}
+
 .content-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-column-gap: 20px;
 }
+
 .page-content {
   grid-column: 1;
 }
+
 .second-content {
-  grid-column:2 ;
+  grid-column: 2;
 }
 
 .form-title {
@@ -35,7 +45,7 @@
 }
 
 .page-content {
- text-align: center;
+  text-align: center;
 }
 
 .login-form label {
@@ -43,6 +53,7 @@
   font-size: 16px;
   margin-bottom: 10px;
 }
+
 .login-form input[type="text"],
 .login-form input[type="password"] {
   width: 20%;
@@ -82,7 +93,7 @@
 
 /* Style pour le formulaire d'inscription */
 .register-content {
- text-align: center;
+  text-align: center;
 }
 
 .register-form label {
@@ -90,9 +101,10 @@
   font-size: 16px;
   margin-bottom: 10px;
 }
+
 .register-form input[type="text"],
 .register-form input[type="password"],
- .register-form input[type="password"]{
+.register-form input[type="password"] {
   width: 22%;
   padding: 10px;
   margin-bottom: -7px;
@@ -110,14 +122,16 @@
 .button-wrapper button {
   margin-right: 10px;
 }
+
 /* Style pour la page search */
-.search-form input[type="text"]{
+.search-form input[type="text"] {
   width: 22%;
   padding: 10px;
   margin-bottom: -7px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
 /* Style pour la page abonnement */
 /* Style for the form */
 .form-group {
@@ -132,8 +146,7 @@
 
 .form-group input[type="text"],
 .form-group textarea,
-.form-group input[type="file"]
-{
+.form-group input[type="file"] {
   width: 40%;
   padding: 10px;
   margin-top: 5px;
@@ -141,7 +154,6 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
-
 
 .my-button {
   color: black;
@@ -155,7 +167,7 @@
 }
 
 .ticket {
-    border: 1px solid #ccc;
+  border: 1px solid #ccc;
   border-radius: 4px;
   padding: 10px;
   margin-bottom: 10px;
@@ -165,21 +177,22 @@
 .ticket h2 {
   margin-top: 0;
 }
+
 .ticket img {
-  max-width: 100%;
   height: auto;
   margin-bottom: 10px;
 }
 
-/* Style pour les sections Ticket et Critique */
-
-/* Style pour les champs de note */
-.rating-field {
+.container {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
+  justify-content: center;
 }
 
-.rating-field label {
-  margin-right: 10px;
+.form-title {
+  text-align: center;
+  margin-right: 20px;
+  font-size: 14px;
 }
+
+

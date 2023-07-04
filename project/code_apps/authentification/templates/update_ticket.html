@@ -8,13 +8,15 @@
 </head>
 <body>
 <h1 class="page-title">Modifier votre propre ticket</h1>
-    <div class="container">
-        <h2 class="form-title">LITReview</h2>
-        <a href="">Flux</a>
-        <a href="{% url 'user_tickets' %}">Posts</a>
-        <a href="{% url 'search' %}">Abonnements</a>
-        <a href="{% url 'logout' %}">Se déconnecter</a>
-        </div>
+    <div class="container" style="height: 100px;">
+  <h2 class="form-title">LITReview</h2>
+  <div class="links">
+    <a href="{% url 'flux' %}">Flux</a>
+    <a href="{% url 'post' %}">Posts</a>
+    <a href="{% url 'search' %}">Abonnements</a>
+    <a href="{% url 'logout' %}">Se déconnecter</a>
+  </div>
+</div>
     <p style="text-align: center;">Modifier votre propre ticket</p>
    <form method="post" enctype="multipart/form-data">
     {% csrf_token %}

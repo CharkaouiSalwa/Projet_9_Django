@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from .models import Ticket, UserFollows, Review
 from django.contrib.auth.decorators import login_required
 from .forms import TicketForm, ReviewForm
+from django.urls import reverse
+
+
 from django.contrib import messages
 
 
@@ -87,7 +90,7 @@ def unsubscribe(request, user_id):
     except UserFollows.DoesNotExist:
         pass
 
-    return redirect('subscriptions')
+    return redirect('search')
 
 @login_required
 def followers(request):
@@ -99,14 +102,13 @@ def followers(request):
     return render(request, 'search.html', context)
 
 
-
 @login_required
-def user_tickets(request):
+def post(request):
     # Récupérer les tickets de l'utilisateur connecté
     tickets = Ticket.objects.filter(user=request.user)
     # Récupérer les critiques associées aux tickets de l'utilisateur
     reviews = Review.objects.filter(ticket__in=tickets)
-    return render(request, 'user_tickets.html', {'tickets': tickets, 'reviews': reviews})
+    return render(request, 'post.html', {'tickets': tickets, 'reviews': reviews})
 @login_required
 def create_ticket(request):
     if request.method == 'POST':
@@ -115,7 +117,7 @@ def create_ticket(request):
             ticket = form.save(commit=False)
             ticket.user = request.user
             ticket.save()
-            return redirect('user_tickets')
+            return redirect('post')
     else:
         form = TicketForm()
     return render(request, 'create_ticket.html', {'form': form})
@@ -128,7 +130,7 @@ def update_ticket(request, ticket_id):
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('user_tickets')  # Redirection vers la page de connexion
+            return redirect('post')  # Redirection vers la page de connexion
     else:
         form = TicketForm(instance=ticket)
 
@@ -141,7 +143,7 @@ def delete_ticket(request, ticket_id):
 
     if request.method == 'POST':
         ticket.delete()
-        return redirect('user_tickets')
+        return redirect('post')
 
     return render(request, 'delete_ticket.html', {'ticket': ticket})
 
@@ -158,11 +160,44 @@ def create_ticket_review(request):
             review.ticket = ticket
             review.user = request.user
             review.save()
-            return redirect('user_tickets')
+            return redirect('post')
     else:
         ticket_form = TicketForm()
         review_form = ReviewForm()
     return render(request, 'create_ticket_review.html', {'ticket_form': ticket_form, 'review_form': review_form})
+
+
+
+
+def flux(request):
+    following_users = request.user.following.all().values('followed_user')
+    followed_user_ids = [user['followed_user'] for user in following_users]
+    followed_users = User.objects.filter(id__in=followed_user_ids)
+    tickets = Ticket.objects.filter(user__in=followed_users)
+
+    for ticket in tickets:
+        critiques = Review.objects.filter(ticket=ticket)
+        ticket.critiques = critiques
+
+    return render(request, 'flux.html', {'tickets': tickets})
+
+
+
+def critique_view(request, ticket_id):
+    ticket = get_object_or_404(Ticket, id=ticket_id)
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            # Sauvegarde de la critique
+            review = form.save(commit=False)
+            review.ticket = ticket
+            review.user = request.user
+            review.save()
+            return redirect('flux')
+
+    else:
+        form = ReviewForm()
+    return render(request, 'critique.html', {'form': form, 'ticket': ticket})
 
 
 def logout_view(request):
