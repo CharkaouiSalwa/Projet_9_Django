@@ -39,8 +39,9 @@
         <p>{{ critique.rating }}</p>
         <p>{{ critique.body }}</p>
         {% endfor %}
+        <button class="my-button" type="button" onclick="window.location.href='{% url 'critique' ticket.id  %}'">Creer une critique</button>
       </div>
-   <button class="my-button" type="button" onclick="window.location.href='{% url 'critique' ticket.id  %}'">Creer une critique</button>
+
     {% endfor %}
   {% else %}
     <p>Aucun ticket disponible dans le flux.</p>

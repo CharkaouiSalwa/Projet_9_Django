@@ -18,7 +18,8 @@
     <a href="{% url 'logout' %}">Se déconnecter</a>
   </div>
 </div>
-    <p style="text-align: center;">Créer un critique</p>
+   <fieldset>
+       <p style="text-align: center;">Créer un critique</p>
     <h2>Vous êtes en train de poster en réponse à :</h2>
 <p>{{ ticket.user }} a demandé une critique :</p>
 <p>{{ ticket.title }}</p>
@@ -28,12 +29,14 @@
 {% if ticket.image %}
 <img src="{{ ticket.image.url }}" alt="Ticket Image" style=" max-width: 20%;"><br>
 {% endif %}
-
-<h2>Critique</h2>
+</fieldset>
+    <fieldset>
+<legend><h2>Critique</h2></legend>
 <form method="POST" action="{% url 'critique' ticket.id %}">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Envoyer</button>
+  <button class="my-button" type="submit">Envoyer</button>
+    </fieldset>
 </form>
 </body>
 </html>

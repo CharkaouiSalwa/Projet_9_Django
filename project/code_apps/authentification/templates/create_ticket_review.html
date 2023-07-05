@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 </head>
 <body>
-    <h1 class="page-title">Créer une critique</h1>
+    <h1 class="page-title">Créer une critique (pas en réponse à un ticket)</h1>
     <div class="container" style="height: 100px">
   <h2 class="form-title">LITReview</h2>
   <div class="links">
@@ -18,19 +18,23 @@
   </div>
 </div>
     <div class="ticket">
-        <h3>Créer un ticket</h3>
-        <form class="ticket-form" method="post" enctype="multipart/form-data">
+        <fieldset>
+            <legend>Livre / Article</legend>
+        <h3>Livre / Article</h3>
+        <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ ticket_form.as_p }}
-        </form>
-    </div>
-    <div class="review" style="border: 1px solid #ccc">
-        <h3>Ajouter une critique</h3>
-        <form class="review-form" method="post">
-            {% csrf_token %}
-            {{ review_form.as_p }}
-            <button class="my-button" type="submit">Envoyer </button>
-        </form>
+        </fieldset>
+
+        <fieldset>
+            <legend>Critique</legend>
+    {{ review_form.as_p }}
+    <button class="my-button"  type="submit">Envoyer</button>
+
+        </fieldset>
+</form>
     </div>
 </body>
 </html>
+
+

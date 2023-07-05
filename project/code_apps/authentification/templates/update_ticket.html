@@ -17,7 +17,8 @@
     <a href="{% url 'logout' %}">Se déconnecter</a>
   </div>
 </div>
-    <p style="text-align: center;">Modifier votre propre ticket</p>
+    <fieldset>
+<p style="text-align: center;">Modifier votre propre ticket</p>
    <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
        <div class="form-group">
@@ -36,6 +37,7 @@
             {{ form.image }}
         </div>
     <button class="my-button" type="submit">Enregistrer les modifications</button>
+       </fieldset>
 </form>
 </body>
 </html>
