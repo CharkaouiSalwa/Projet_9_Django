@@ -13,10 +13,10 @@ class TicketForm(forms.ModelForm):
 
 
 class ReviewForm(forms.ModelForm):
-    headline = forms.CharField(max_length=128)
+    headline = forms.CharField(label='titre', max_length=128)
     RATING_CHOICES = [(str(i), str(i)) for i in range(6)]
-    rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.RadioSelect)
-    body = forms.CharField(widget=forms.Textarea(attrs={'rows': 4}))
+    rating = forms.ChoiceField(label='note', choices=RATING_CHOICES, widget=forms.RadioSelect)
+    body = forms.CharField(label='Commentaire',widget=forms.Textarea(attrs={'rows': 4}))
 
 
     class Meta:

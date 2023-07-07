@@ -24,11 +24,11 @@ class Ticket(models.Model):
 class Review(models.Model):
     ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     rating = models.PositiveSmallIntegerField(
-        verbose_name='Note',
+        'Note',
         validators=[MinValueValidator(0), MaxValueValidator(5)]
     )
-    headline = models.CharField(verbose_name='Titre', max_length=128)
-    body = models.CharField(verbose_name='commentaire', max_length=8192, blank=True)
+    headline = models.CharField('Titre', max_length=128)
+    body = models.CharField('commentaire', max_length=8192, blank=True)
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )

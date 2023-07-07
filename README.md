@@ -2,6 +2,7 @@
 
 # Projet 9: Développez une application Web en utilisant Django
 ***
+
 ### ***Contexte :***
 L'objectif du projet est de commercialiser un produit permettant à une communauté d'utilisateurs de
 consulter ou de solliciter une critique de livres à la demande.
