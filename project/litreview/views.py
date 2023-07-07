@@ -1,59 +1,9 @@
-from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from .models import Ticket, UserFollows, Review
+from litreview.models import Ticket, UserFollows, Review
 from django.contrib.auth.decorators import login_required
-from .forms import TicketForm, ReviewForm
-from django.urls import reverse
-
-
-from django.contrib import messages
-
-
-
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(request, username=username, password=password)
-
-        if user is not None:
-            login(request, user)
-            # Rediriger vers la page suivante
-            return redirect('search')
-        else:
-            # Gérer l'erreur d'authentification
-            error_message = "Identifiant ou mot de passe incorrect"
-            return render(request, 'login.html', {'error_message': error_message})
-    else:
-        return render(request, 'login.html')
-
-def register_view(request):
-    if request.method == 'POST':
-        # Récupérer les données du formulaire
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        confirm_password = request.POST.get('confirm_password')
-        # Vérifier si les mots de passe correspondent
-        if password != confirm_password:
-            error_message = "Les mots de passe ne correspondent pas."
-            return render(request, 'register.html', {'error_message': error_message})
-        try:
-            # Vérifier si l'utilisateur existe déjà
-            User.objects.get(username=username)
-            error_message = "Nom d'utilisateur déjà utilisé."
-            return render(request, 'register.html', {'error_message': error_message})
-        except User.DoesNotExist:
-            # Créer un nouvel utilisateur
-            user = User.objects.create_user(username=username, password=password)
-            # Enregistrer l'utilisateur dans la base de données
-            user.save()
-            # Rediriger vers une page de succès ou faire d'autres actions
-            messages.success(request, "Inscription réussie. Vous pouvez vous connecter maintenant.")
-            return redirect('login')
-    else:
-        return render(request, 'register.html')
-
+from django.shortcuts import render, redirect
+from litreview.forms import TicketForm, ReviewForm
 
 @login_required
 def search(request):
@@ -69,7 +19,7 @@ def search(request):
             pass
     subscriptions = UserFollows.objects.filter(user=request.user)
     followers = UserFollows.objects.filter(followed_user=request.user)
-    return render(request, 'search.html', {'subscriptions': subscriptions, 'followers': followers})
+    return render(request, 'litreview/search.html', {'subscriptions': subscriptions, 'followers': followers})
 
 
 @login_required
@@ -77,7 +27,7 @@ def subscriptions(request):
     # Récupérer la liste des abonnements de l'utilisateur connecté cest méthode Read de CRUD lors de chargement de la page
     user = request.user
     subscriptions = UserFollows.objects.filter(user=user)
-    return render(request, 'subscriptions.html', {'subscriptions': subscriptions})
+    return render(request, 'litreview/subscriptions.html', {'subscriptions': subscriptions})
 
 
 @login_required
@@ -99,7 +49,7 @@ def followers(request):
     context = {
         'followers': followers
     }
-    return render(request, 'search.html', context)
+    return render(request, 'litreview/search.html', context)
 
 
 @login_required
@@ -108,7 +58,7 @@ def post(request):
     tickets = Ticket.objects.filter(user=request.user)
     # Récupérer les critiques associées aux tickets de l'utilisateur
     reviews = Review.objects.filter(ticket__in=tickets)
-    return render(request, 'post.html', {'tickets': tickets, 'reviews': reviews})
+    return render(request, 'litreview/post.html', {'tickets': tickets, 'reviews': reviews})
 @login_required
 def create_ticket(request):
     if request.method == 'POST':
@@ -120,7 +70,7 @@ def create_ticket(request):
             return redirect('post')
     else:
         form = TicketForm()
-    return render(request, 'create_ticket.html', {'form': form})
+    return render(request, 'litreview/create_ticket.html', {'form': form})
 
 @login_required
 def update_ticket(request, ticket_id):
@@ -133,7 +83,7 @@ def update_ticket(request, ticket_id):
     else:
         form = TicketForm(instance=ticket)
 
-    return render(request, 'update_ticket.html', {'form': form, 'ticket': ticket})
+    return render(request, 'litreview/update_ticket.html', {'form': form, 'ticket': ticket})
 
 @login_required
 def delete_ticket(request, ticket_id):
@@ -143,11 +93,8 @@ def delete_ticket(request, ticket_id):
     if request.method == 'POST':
         ticket.delete()
         return redirect('post')
-    return render(request, 'delete_ticket.html', {'ticket': ticket})
+    return render(request, 'litreview/delete_ticket.html', {'ticket': ticket})
 
-
-from django.shortcuts import render, redirect
-from .forms import TicketForm, ReviewForm
 
 def create_ticket_review(request):
     if request.method == 'POST':
@@ -168,7 +115,7 @@ def create_ticket_review(request):
         ticket_form = TicketForm()
         review_form = ReviewForm()
 
-    return render(request, 'create_ticket_review.html', {'ticket_form': ticket_form, 'review_form': review_form})
+    return render(request, 'litreview/create_ticket_review.html', {'ticket_form': ticket_form, 'review_form': review_form})
 
 
 def flux(request):
@@ -181,7 +128,7 @@ def flux(request):
         critiques = Review.objects.filter(ticket=ticket)
         ticket.critiques = critiques
 
-    return render(request, 'flux.html', {'tickets': tickets})
+    return render(request, 'litreview/flux.html', {'tickets': tickets})
 
 
 
@@ -199,11 +146,8 @@ def critique_view(request, ticket_id):
 
     else:
         form = ReviewForm()
-    return render(request, 'critique.html', {'form': form, 'ticket': ticket})
+    return render(request, 'litreview/critique.html', {'form': form, 'ticket': ticket})
 
 
-def logout_view(request):
-    logout(request)
-    return redirect('login')  # Redirige vers la page de connexion après la déconnexion
 
 

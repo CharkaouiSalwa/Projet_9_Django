@@ -2,9 +2,12 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from code_apps.views import login_view, register_view, search,\
-    unsubscribe,subscriptions,  create_ticket, update_ticket, logout_view, \
+
+from authentification.views import login_view, register_view, logout_view
+from litreview.views import search,\
+    unsubscribe, subscriptions,  create_ticket, update_ticket, \
     post, delete_ticket, create_ticket_review, flux, critique_view
+
 
 
 urlpatterns = [
