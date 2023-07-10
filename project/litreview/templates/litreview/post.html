@@ -31,13 +31,15 @@
         {% for review in reviews %}
             {% if review.ticket == ticket %}
                 <h3>{{ review.headline }}</h3>
-                <p style="display: inline-block; margin-right: 10px;">{{ review.body }}</p>
-                <p style="display: inline-block;">{{ review.rating }}</p><br>
+                <p style="display: inline-block;">{{ review.body }}</p>
+                {% for _ in "x"|rjust:review.rating %}
+                <span style="display: inline-block; margin-right:-4px; ">&#9733;</span>
+                {% endfor %}
+    </div> <br>
             {% endif %}
         {% endfor %}
-
-        <button class="my-button" type="button" onclick="window.location.href='{% url 'update_ticket' ticket.id %}'">Modifier</button>
-        <button class="my-button" type="button" onclick="window.location.href='{% url 'delete_ticket' ticket.id %}'">Supprimer</button>
+    <button class="my-button" type="button" onclick="window.location.href='{% url 'update_ticket' ticket.id %}'">Modifier</button>
+    <button class="my-button" type="button" onclick="window.location.href='{% url 'delete_ticket' ticket.id %}'">Supprimer</button>
     </div>
 {% endfor %}
 </body>

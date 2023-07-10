@@ -35,10 +35,12 @@
         {% endif %}
         {% for critique in ticket.critiques %}
         <h2>{{ critique.headline }}</h2>
-        <div class="critique-info">
-          <p style="display: inline-block; margin-right: 10px;">{{ critique.rating }}</p>
-          <p style="display: inline-block;">{{ critique.body }}</p><br>
-        </div>
+        <div class="critique-info" style="display: inline-block; margin-right:10px; " >
+          <p style="display: inline-block;">{{ critique.body }}</p>
+          {% for _ in "x"|rjust:critique.rating %}
+          <span style="display: inline-block; margin-right:-4px; ">&#9733;</span>
+          {% endfor %}
+        </div><br>
         {% endfor %}
         <button class="my-button" type="button" onclick="window.location.href='{% url 'critique' ticket.id  %}'">Creer une critique</button>
       </div>
