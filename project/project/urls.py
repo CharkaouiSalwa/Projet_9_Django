@@ -6,7 +6,7 @@ from django.conf.urls.static import static
 from authentification.views import login_view, register_view, logout_view
 from litreview.views import search,\
     unsubscribe, subscriptions,  create_ticket, update_ticket, \
-    post, delete_ticket, create_ticket_review, flux, critique_view
+    post, delete_ticket, create_ticket_review, flux, critique_view, update_critique
 
 
 
@@ -25,7 +25,7 @@ urlpatterns = [
     path('create_ticket_review/', create_ticket_review, name='create_ticket_review'),
     path('flux/', flux, name='flux'),
     path('critique/<int:ticket_id>/', critique_view, name='critique'),
-
+    path('update_critique/<int:critique_id>/<int:ticket_id>/', update_critique, name='update_critique'),
     ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 

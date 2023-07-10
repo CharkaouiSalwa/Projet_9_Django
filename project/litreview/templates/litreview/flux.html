@@ -35,8 +35,10 @@
         {% endif %}
         {% for critique in ticket.critiques %}
         <h2>{{ critique.headline }}</h2>
-        <p>{{ critique.rating }}</p>
-        <p>{{ critique.body }}</p>
+        <div class="critique-info">
+          <p style="display: inline-block; margin-right: 10px;">{{ critique.rating }}</p>
+          <p style="display: inline-block;">{{ critique.body }}</p><br>
+        </div>
         {% endfor %}
         <button class="my-button" type="button" onclick="window.location.href='{% url 'critique' ticket.id  %}'">Creer une critique</button>
       </div>
@@ -45,7 +47,6 @@
   {% else %}
     <p>Aucun ticket disponible dans le flux.</p>
   {% endif %}
-
-
 </body>
 </html>
+

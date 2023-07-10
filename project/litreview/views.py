@@ -130,24 +130,52 @@ def flux(request):
 
     return render(request, 'litreview/flux.html', {'tickets': tickets})
 
+# def critique_view(request, ticket_id):
+#     ticket = get_object_or_404(Ticket, id=ticket_id)
+#     if request.method == 'POST':
+#         form = ReviewForm(request.POST)
+#         if form.is_valid():
+#             # Sauvegarde de la critique
+#             review = form.save(commit=False)
+#             review.ticket = ticket
+#             review.user = request.user
+#             review.save()
+#             return redirect('flux')
+#     else:
+#         form = ReviewForm()
+#     return render(request, 'litreview/critique.html', {'form': form, 'ticket': ticket})
 
-
+@login_required
 def critique_view(request, ticket_id):
     ticket = get_object_or_404(Ticket, id=ticket_id)
-    if request.method == 'POST':
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            # Sauvegarde de la critique
-            review = form.save(commit=False)
-            review.ticket = ticket
-            review.user = request.user
-            review.save()
-            return redirect('flux')
-
-    else:
-        form = ReviewForm()
+    try:
+        critique = Review.objects.get(ticket=ticket)
+        return redirect('update_critique', critique_id=critique.id, ticket_id=ticket_id)
+    except Review.DoesNotExist:
+        if request.method == 'POST':
+            form = ReviewForm(request.POST)
+            if form.is_valid():
+                critique = form.save(commit=False)
+                critique.ticket = ticket
+                critique.user = request.user
+                critique.save()
+                return redirect('flux')
+        else:
+            form = ReviewForm()
     return render(request, 'litreview/critique.html', {'form': form, 'ticket': ticket})
 
+@login_required
+def update_critique(request, critique_id, ticket_id):
+    critique = get_object_or_404(Review, id=critique_id, ticket_id=ticket_id)
+    ticket = get_object_or_404(Ticket, id=ticket_id)  # Récupérer le ticket correspondant
 
+    if request.method == 'POST':
+        form = ReviewForm(request.POST, instance=critique)
+        if form.is_valid():
+            form.save()
+            return redirect('flux')
+    else:
+        form = ReviewForm(instance=critique)
 
+    return render(request, 'litreview/update_critique.html', {'form': form, 'critique': critique, 'ticket': ticket})
 

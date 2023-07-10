@@ -5,10 +5,9 @@
 <head>
     <title>Créer un ticket</title>
     <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-
 </head>
 <body>
-    <h1 class="page-title">Créer une critique (en réponse à un ticket)</h1>
+    <h1 class="page-title">Modifier votre propre critique</h1>
      <div class="container" style="height: 100px">
   <h2 class="form-title">LITReview</h2>
   <div class="links">
@@ -19,7 +18,7 @@
   </div>
 </div>
    <fieldset>
-       <p style="text-align: center;">Créer un critique</p>
+       <p style="text-align: center;">Modifier votre critique</p>
     <h2>Vous êtes en train de poster en réponse à :</h2>
 <p>{{ ticket.user }} a demandé une critique :</p>
 <p>{{ ticket.title }}</p>
@@ -32,10 +31,10 @@
 </fieldset>
     <fieldset>
 <legend><h2>Critique</h2></legend>
-<form method="POST" action="{% url 'critique' ticket.id %}">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button class="my-button" type="submit">Envoyer</button>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button class="my-button" type="submit">Envoyer</button>
     </fieldset>
 </form>
 

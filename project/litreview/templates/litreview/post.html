@@ -31,8 +31,8 @@
         {% for review in reviews %}
             {% if review.ticket == ticket %}
                 <h3>{{ review.headline }}</h3>
-                <p>{{ review.body }}</p>
-                <p>{{ review.rating }}</p>
+                <p style="display: inline-block; margin-right: 10px;">{{ review.body }}</p>
+                <p style="display: inline-block;">{{ review.rating }}</p><br>
             {% endif %}
         {% endfor %}
 
@@ -40,8 +40,6 @@
         <button class="my-button" type="button" onclick="window.location.href='{% url 'delete_ticket' ticket.id %}'">Supprimer</button>
     </div>
 {% endfor %}
-
-
 </body>
 </html>
 
