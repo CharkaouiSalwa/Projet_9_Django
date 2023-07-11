@@ -19,10 +19,12 @@
 
 .container {
   display: flex;
-  flex-direction: column;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
-  /* Ajustez la hauteur selon vos besoins */
+}
+
+.form-title {
+  margin: 0 auto;
 }
 
 .content-wrapper {
@@ -182,18 +184,23 @@
   height: auto;
   margin-bottom: 10px;
 }
-
-.container {
+.content-center {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 70vh;
 }
 
-.form-title {
-  text-align: center;
-  margin-right: 20px;
-  font-size: 14px;
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
 }
 
-
+.button-wrapper button {
+  margin-right: 10px;
+  display: inline-block;
+}
 

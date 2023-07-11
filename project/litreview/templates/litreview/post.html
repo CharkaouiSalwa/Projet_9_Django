@@ -18,8 +18,9 @@
     <a href="{% url 'logout' %}">Se déconnecter</a>
   </div>
 </div>
-
+<div class="content-center">
 {% for ticket in tickets %}
+
     <div class="ticket">
         <h2>{{ ticket.title }}</h2>
         <p>{{ ticket.description }}</p>
@@ -35,13 +36,17 @@
                 {% for _ in "x"|rjust:review.rating %}
                 <span style="display: inline-block; margin-right:-4px; ">&#9733;</span>
                 {% endfor %}
-    </div> <br>
+
             {% endif %}
         {% endfor %}
+    <div class="button-wrapper">
     <button class="my-button" type="button" onclick="window.location.href='{% url 'update_ticket' ticket.id %}'">Modifier</button>
     <button class="my-button" type="button" onclick="window.location.href='{% url 'delete_ticket' ticket.id %}'">Supprimer</button>
     </div>
+        </div>
+</div>
 {% endfor %}
+</div>
 </body>
 </html>
 

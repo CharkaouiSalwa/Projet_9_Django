@@ -13,7 +13,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             # Rediriger vers la page suivante
-            return redirect('search')
+            return redirect('flux')
         else:
             # Gérer l'erreur d'authentification
             error_message = "Identifiant ou mot de passe incorrect"

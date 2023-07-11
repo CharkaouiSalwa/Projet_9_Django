@@ -9,7 +9,7 @@
 <body>
 <h1 class="page-title">Flux</h1>
 
-  <div class="container" style="height: 100px">
+  <div class="container" style="height: 70px;">
   <h2 class="form-title">LITReview</h2>
   <div class="links">
     <a href="{% url 'flux' %}">Flux</a>
@@ -19,9 +19,11 @@
   </div>
 </div>
 
-    <button  class="my-button" type="button" onclick="window.location.href='{% url 'create_ticket' %}'">Demander une critique</button>
-    <button  class="my-button" type="button" onclick="window.location.href='{% url 'create_ticket_review' %}'">Creer une critique</button>
-
+<div class="content-center">
+  <div class="button-wrapper">
+        <button class="my-button" type="button" onclick="window.location.href='{% url 'create_ticket' %}'">Demander une critique</button>
+        <button class="my-button" type="button" onclick="window.location.href='{% url 'create_ticket_review' %}'">Créer une critique</button>
+    </div>
   {% if tickets %}
     {% for ticket in tickets %}
       <div class="ticket">
@@ -31,7 +33,7 @@
         <p>{{ ticket.time_created }}</p>
 
         {% if ticket.image %}
-          <img src="{{ ticket.image.url }}" alt="Ticket Image" style=" max-width: 20%;"><br>
+          <img src="{{ ticket.image.url }}" alt="Ticket Image" style="max-width: 20%;"><br>
         {% endif %}
         {% for critique in ticket.critiques %}
         <h2>{{ critique.headline }}</h2>
@@ -49,6 +51,8 @@
   {% else %}
     <p>Aucun ticket disponible dans le flux.</p>
   {% endif %}
+</div>
+
 </body>
 </html>
 
