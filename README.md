@@ -57,6 +57,11 @@ Identifiant : malak
 
 Mot de passe : malak
 ```
+```
+Identifiant : openclassrooms
+
+Mot de passe : openclassrooms
+```
 Sinon en cliquant sur S'inscrire vous pourrez créer un compte afin de vous identifier. Lorsque vous serez connecté, vous serez redirigé vers votre page d'accueil.
 
 <br/><br/><br/>
