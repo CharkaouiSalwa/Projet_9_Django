@@ -20,35 +20,30 @@
 </div>
 <div class="content-center">
 {% for ticket in tickets %}
-
     <div class="ticket">
         <h2>{{ ticket.title }}</h2>
         <p>{{ ticket.description }}</p>
         <p>{{ ticket.time_created }}</p>
         {% if ticket.image %}
-    <img src="{{ ticket.image.url }}" alt="Ticket Image" style=" max-width: 20%;"><br>
+            <img src="{{ ticket.image.url }}" alt="Ticket Image" style=" max-width: 20%;"><br>
         {% endif %}
-
         {% for review in reviews %}
             {% if review.ticket == ticket %}
                 <h3>{{ review.headline }}</h3>
                 <p style="display: inline-block;">{{ review.body }}</p>
                 {% for _ in "x"|rjust:review.rating %}
-                <span style="display: inline-block; margin-right:-4px; ">&#9733;</span>
+                    <span style="display: inline-block; margin-right:-4px; ">&#9733;</span>
                 {% endfor %}
-
             {% endif %}
         {% endfor %}
     <div class="button-wrapper">
     <button class="my-button" type="button" onclick="window.location.href='{% url 'update_ticket' ticket.id %}'">Modifier</button>
     <button class="my-button" type="button" onclick="window.location.href='{% url 'delete_ticket' ticket.id %}'">Supprimer</button>
     </div>
-        </div>
-</div>
+    </div>
 {% endfor %}
 </div>
 </body>
 </html>
-
 
 
