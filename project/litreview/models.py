@@ -5,8 +5,6 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 
 
-
-
 class Ticket(models.Model):
     title = models.fields.CharField(max_length=128)
     description = models.fields.TextField(max_length=2048,blank=True)

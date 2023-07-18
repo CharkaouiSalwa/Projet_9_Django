@@ -21,7 +21,6 @@ def search(request):
     followers = UserFollows.objects.filter(followed_user=request.user)
     return render(request, 'litreview/search.html', {'subscriptions': subscriptions, 'followers': followers})
 
-
 @login_required
 def subscriptions(request):
     # Récupérer la liste des abonnements de l'utilisateur connecté cest méthode Read de CRUD lors de chargement de la page
@@ -55,10 +54,11 @@ def followers(request):
 @login_required
 def post(request):
     # Récupérer les tickets de l'utilisateur connecté
-    tickets = Ticket.objects.filter(user=request.user)
+    tickets = Ticket.objects.filter(user=request.user).order_by('-time_created')
     # Récupérer les critiques associées aux tickets de l'utilisateur
     reviews = Review.objects.filter(ticket__in=tickets)
     return render(request, 'litreview/post.html', {'tickets': tickets, 'reviews': reviews})
+
 @login_required
 def create_ticket(request):
     if request.method == 'POST':
@@ -79,7 +79,7 @@ def update_ticket(request, ticket_id):
         form = TicketForm(request.POST, request.FILES, instance=ticket)
         if form.is_valid():
             form.save()
-            return redirect('post')  # Redirection vers la page de connexion
+            return redirect('post')  # Redirection vers la post
     else:
         form = TicketForm(instance=ticket)
 
@@ -89,12 +89,10 @@ def update_ticket(request, ticket_id):
 def delete_ticket(request, ticket_id):
     # Récupérer le ticket à supprimer
     ticket = get_object_or_404(Ticket, id=ticket_id)
-
     if request.method == 'POST':
         ticket.delete()
         return redirect('post')
     return render(request, 'litreview/delete_ticket.html', {'ticket': ticket})
-
 
 def create_ticket_review(request):
     if request.method == 'POST':
@@ -117,12 +115,11 @@ def create_ticket_review(request):
 
     return render(request, 'litreview/create_ticket_review.html', {'ticket_form': ticket_form, 'review_form': review_form})
 
-
 def flux(request):
     following_users = request.user.following.all().values('followed_user')
     followed_user_ids = [user['followed_user'] for user in following_users]
     followed_users = User.objects.filter(id__in=followed_user_ids)
-    tickets = Ticket.objects.filter(user__in=followed_users)
+    tickets = Ticket.objects.filter(user__in=followed_users).order_by('-time_created')
 
     for ticket in tickets:
         critiques = Review.objects.filter(ticket=ticket)
@@ -130,20 +127,7 @@ def flux(request):
 
     return render(request, 'litreview/flux.html', {'tickets': tickets})
 
-# def critique_view(request, ticket_id):
-#     ticket = get_object_or_404(Ticket, id=ticket_id)
-#     if request.method == 'POST':
-#         form = ReviewForm(request.POST)
-#         if form.is_valid():
-#             # Sauvegarde de la critique
-#             review = form.save(commit=False)
-#             review.ticket = ticket
-#             review.user = request.user
-#             review.save()
-#             return redirect('flux')
-#     else:
-#         form = ReviewForm()
-#     return render(request, 'litreview/critique.html', {'form': form, 'ticket': ticket})
+
 
 @login_required
 def critique_view(request, ticket_id):
